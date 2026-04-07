@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade Transmutation Guide — ICS-5A</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --ink: #1a1a18;
+  --ink2: #5a5a54;
+  --ink3: #9a9a90;
+  --border: #e4e3dd;
+  --border2: #d0cfc8;
+  --blue: #2563eb;
+  --blue-bg: #eff4ff;
+  --blue-border: #bdd0fb;
+  --purple: #7c3aed;
+  --purple-bg: #f5f0ff;
+  --purple-border: #d4bffd;
+  --teal: #0d9488;
+  --teal-bg: #f0fdfa;
+  --teal-border: #99e6de;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd97a;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* LAYOUT */
+.page { max-width: 780px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* HEADER */
+.site-header { margin-bottom: 48px; }
+.logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+.logo-text { font-size: 13px; font-weight: 500; color: var(--ink2); letter-spacing: 0.02em; }
+h1 { font-size: clamp(26px, 5vw, 40px); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px; }
+.header-sub { font-size: 16px; color: var(--ink2); max-width: 500px; line-height: 1.65; }
+
+/* STEP STRUCTURE */
+.steps { display: flex; flex-direction: column; gap: 32px; }
+
+.step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+.step-head {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--ink); color: var(--white);
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-head-text h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.step-head-text p { font-size: 14px; color: var(--ink2); }
+
+.step-body { padding: 24px 28px; }
+
+/* CONCEPT CARDS */
+.concept-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+@media (max-width: 520px) { .concept-pair { grid-template-columns: 1fr; } }
+
+.concept-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.concept-card-label { font-size: 12px; font-weight: 500; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.concept-line { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 3px 0; }
+.concept-line span:first-child { color: var(--ink2); }
+.concept-line .mono { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+.concept-result { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 13px; font-family: 'DM Mono', monospace; color: var(--blue); font-weight: 500; }
+
+/* CALLOUT */
+.callout { border-radius: var(--radius-sm); padding: 14px 16px; font-size: 14px; line-height: 1.6; border: 1px solid; }
+.callout-blue { background: var(--blue-bg); border-color: var(--blue-border); color: #1e40af; }
+.callout-amber { background: var(--amber-bg); border-color: var(--amber-border); color: #92400e; }
+.callout b { font-weight: 600; }
+
+/* WEIGHT TABLE */
+.weight-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.weight-table th { font-size: 12px; font-weight: 500; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.05em; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.weight-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.weight-table tr:last-child td { border-bottom: none; }
+.weight-table .mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+.pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+.pill-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+.pill-teal { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+.pill-gray { background: var(--bg); color: var(--ink3); border: 1px solid var(--border); }
+.bar-wrap { width: 80px; height: 6px; background: var(--border); border-radius: 3px; display: inline-block; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+
+/* CALCULATOR */
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+@media (max-width: 520px) { .calc-grid { grid-template-columns: 1fr; } }
+
+.input-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+.input-card.full { grid-column: 1 / -1; }
+.input-card-label { font-size: 12px; font-weight: 500; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.input-sub-label { font-size: 13px; color: var(--ink2); width: 75px; flex-shrink: 0; }
+.num-input {
+  flex: 1; height: 34px; padding: 0 10px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.num-input:focus { border-color: var(--blue); }
+.weight-input { width: 65px; flex: none; }
+.contrib-chip { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink3); white-space: nowrap; }
+
+/* LIVE BREAKDOWN */
+.breakdown { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; margin-top: 4px; }
+.breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.breakdown-row:last-child { border-bottom: none; }
+.br-label { color: var(--ink2); }
+.br-val { font-family: 'DM Mono', monospace; font-weight: 500; }
+.br-total { padding: 10px 0 0; margin-top: 4px; }
+.br-total .br-label { font-weight: 500; color: var(--ink); }
+.br-total .br-val { font-size: 18px; color: var(--ink); }
+
+/* WEIGHT WARNING */
+.weight-warn { display: none; background: var(--amber-bg); border: 1px solid var(--amber-border); color: #92400e; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; margin-top: 10px; }
+.total-weight-display { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; }
+
+/* RESULT CARDS */
+.result-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+@media (max-width: 480px) { .result-row { grid-template-columns: 1fr; } }
+
+.result-card {
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  border: 1px solid;
+  text-align: center;
+}
+.result-card-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; opacity: 0.7; }
+.result-card-val { font-size: 36px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; }
+.result-card-sub { font-size: 12px; opacity: 0.7; }
+.card-raw { background: #f0f4ff; border-color: #c3d1fb; color: #1e3a8a; }
+.card-trans { background: var(--teal-bg); border-color: var(--teal-border); color: #0f4f47; }
+.card-fail { background: var(--red-bg); border-color: var(--red-border); color: #991b1b; }
+
+/* GRADE BADGE */
+.grade-badge-row { display: flex; justify-content: center; margin-top: 16px; }
+.grade-badge {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid;
+  font-size: 15px; font-weight: 500;
+}
+.grade-letter-big { font-size: 22px; font-weight: 600; font-family: 'DM Mono', monospace; }
+
+/* FORMULA DISPLAY */
+.formula-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 16px; }
+.formula-text { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--ink); margin-bottom: 10px; line-height: 1.8; }
+.formula-text .hl { color: var(--blue); font-weight: 500; }
+.formula-vars { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.fvar { font-size: 12px; background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 3px 10px; color: var(--ink2); font-family: 'DM Mono', monospace; }
+.fvar b { color: var(--ink); font-weight: 500; }
+
+/* STEP-BY-STEP */
+.trans-steps { font-size: 14px; color: var(--ink2); line-height: 2.2; font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+.trans-steps b { color: var(--ink); font-weight: 500; }
+
+/* GRADE SCALE TABLE */
+.scale-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.scale-table th { font-size: 12px; font-weight: 500; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.05em; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.scale-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.scale-table tr:last-child td { border-bottom: none; }
+.letter-box { width: 30px; height: 30px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; font-family: 'DM Mono', monospace; }
+.quick-ref { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; margin-top: 16px; }
+.qr-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.qr-raw { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--ink2); }
+.qr-arrow { font-size: 12px; color: var(--ink3); margin: 2px 0; }
+.qr-trans { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 600; color: var(--ink); }
+
+/* DIVIDER */
+.section-divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+/* FOOTER */
+footer { text-align: center; padding-top: 32px; font-size: 13px; color: var(--ink3); }
+
+/* ANIMATE IN */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.step { animation: fadeUp 0.5s ease both; }
+.step:nth-child(1) { animation-delay: 0.05s; }
+.step:nth-child(2) { animation-delay: 0.12s; }
+.step:nth-child(3) { animation-delay: 0.19s; }
+.step:nth-child(4) { animation-delay: 0.26s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="logo-row">
+      <div class="logo-dot"></div>
+      <span class="logo-text">ICS-5A · SE4HC Project · National University of Management</span>
+    </div>
+    <h1>How Your Grade<br>is Calculated</h1>
+    <p class="header-sub">A simple guide to understanding weights, raw scores, and grade transmutation — with a live calculator.</p>
+  </header>
+
+  <div class="steps">
+
+    <!-- STEP 1: WEIGHT vs FULL SCORE -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-head-text">
+          <h2>Weight vs. Full score — what's the difference?</h2>
+          <p>These two numbers are independent of each other.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="concept-pair">
+          <div class="concept-card">
+            <div class="concept-card-label">Full score</div>
+            <p style="font-size:14px; color:var(--ink2); margin-bottom:10px;">The total points on the paper. What you score <em>out of</em>.</p>
+            <div class="concept-line"><span>Quiz A</span><span class="mono">out of 100 pts</span></div>
+            <div class="concept-line"><span>Quiz B</span><span class="mono">out of 10 pts</span></div>
+          </div>
+          <div class="concept-card">
+            <div class="concept-card-label">Weight</div>
+            <p style="font-size:14px; color:var(--ink2); margin-bottom:10px;">How much it counts toward your final grade. Totally separate.</p>
+            <div class="concept-line"><span>Quiz A weight</span><span class="mono">10%</span></div>
+            <div class="concept-line"><span>Quiz B weight</span><span class="mono">90%</span></div>
+          </div>
+        </div>
+
+        <div class="callout callout-blue" style="margin-bottom:12px;">
+          <b>Key idea:</b> A quiz with 100 pts full score at 10% weight matters <em>less</em> than a quiz with 10 pts full score at 90% weight. The full score is just the marking scale — the weight is the real power.
+        </div>
+
+        <div class="concept-pair">
+          <div class="concept-card" style="border-color:var(--blue-border);">
+            <div class="concept-card-label" style="color:var(--blue);">Example A</div>
+            <div class="concept-line"><span>Full score</span><span class="mono">100 pts</span></div>
+            <div class="concept-line"><span>Weight</span><span class="mono">10%</span></div>
+            <div class="concept-line"><span>You scored</span><span class="mono">80 / 100</span></div>
+            <div class="concept-result">80% × 10% = <b>8 pts</b> toward grade</div>
+          </div>
+          <div class="concept-card" style="border-color:var(--purple-border);">
+            <div class="concept-card-label" style="color:var(--purple);">Example B</div>
+            <div class="concept-line"><span>Full score</span><span class="mono">10 pts</span></div>
+            <div class="concept-line"><span>Weight</span><span class="mono">90%</span></div>
+            <div class="concept-line"><span>You scored</span><span class="mono">8 / 10</span></div>
+            <div class="concept-result">80% × 90% = <b>72 pts</b> toward grade</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: ASSESSMENT COMPONENTS -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-head-text">
+          <h2>The four assessment components</h2>
+          <p>All weights must add up to 100%.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <table class="weight-table">
+          <thead>
+            <tr>
+              <th>Assessment</th>
+              <th>Full score</th>
+              <th>Weight</th>
+              <th>Share of grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Diagnostic test <span class="pill pill-gray">week 1</span></td>
+              <td class="mono">20 items</td>
+              <td class="mono" style="color:var(--ink3);">0%</td>
+              <td><span style="color:var(--ink3); font-size:13px;">Not graded — baseline only</span></td>
+            </tr>
+            <tr>
+              <td>Quizzes ×4 <span class="pill pill-blue">weeks 2·4·6·8</span></td>
+              <td class="mono">10 pts each</td>
+              <td class="mono">40%</td>
+              <td>
+                <div class="bar-wrap"><div class="bar-fill" style="width:40%; background:var(--blue);"></div></div>
+                <span style="font-size:12px; color:var(--ink3); margin-left:6px;">10% each</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Midterm exam <span class="pill pill-purple">week 10</span></td>
+              <td class="mono">20 items</td>
+              <td class="mono">20%</td>
+              <td>
+                <div class="bar-wrap"><div class="bar-fill" style="width:20%; background:var(--purple);"></div></div>
+              </td>
+            </tr>
+            <tr>
+              <td>Final exam <span class="pill pill-teal">week 14</span></td>
+              <td class="mono">40 pts</td>
+              <td class="mono">40%</td>
+              <td>
+                <div class="bar-wrap"><div class="bar-fill" style="width:40%; background:var(--teal);"></div></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-blue" style="margin-top:16px;">
+          <b>Formula per item:</b> Contribution = (Your score ÷ Full score) × Weight %
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: LIVE CALCULATOR -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">3</div>
+        <div class="step-head-text">
+          <h2>Calculate your raw score</h2>
+          <p>Enter your scores, full scores, and weights. Results update live.</p>
+        </div>
+      </div>
+      <div class="step-body">
+
+        <div class="calc-grid" id="calcGrid">
+          <!-- Quiz 1 -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Quiz 1 <span class="pill pill-blue" style="font-size:10px;">wk 2</span></span>
+              <span class="contrib-chip" id="c0">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="0" data-f="score" value="8"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="0" data-f="full" value="10"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="0" data-f="weight" value="10"></div>
+          </div>
+          <!-- Quiz 2 -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Quiz 2 <span class="pill pill-blue" style="font-size:10px;">wk 4</span></span>
+              <span class="contrib-chip" id="c1">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="1" data-f="score" value="7"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="1" data-f="full" value="10"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="1" data-f="weight" value="10"></div>
+          </div>
+          <!-- Quiz 3 -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Quiz 3 <span class="pill pill-blue" style="font-size:10px;">wk 6</span></span>
+              <span class="contrib-chip" id="c2">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="2" data-f="score" value="9"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="2" data-f="full" value="10"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="2" data-f="weight" value="10"></div>
+          </div>
+          <!-- Quiz 4 -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Quiz 4 <span class="pill pill-blue" style="font-size:10px;">wk 8</span></span>
+              <span class="contrib-chip" id="c3">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="3" data-f="score" value="6"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="3" data-f="full" value="10"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="3" data-f="weight" value="10"></div>
+          </div>
+          <!-- Midterm -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Midterm <span class="pill pill-purple" style="font-size:10px; background:var(--purple-bg); color:var(--purple); border-color:var(--purple-border);">wk 10</span></span>
+              <span class="contrib-chip" id="c4">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="4" data-f="score" value="16"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="4" data-f="full" value="20"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="4" data-f="weight" value="20"></div>
+          </div>
+          <!-- Final -->
+          <div class="input-card">
+            <div class="input-card-label">
+              <span>Final exam <span class="pill" style="font-size:10px; background:var(--teal-bg); color:var(--teal); border:1px solid var(--teal-border);">wk 14</span></span>
+              <span class="contrib-chip" id="c5">—</span>
+            </div>
+            <div class="input-row"><span class="input-sub-label">Score</span><input class="num-input" type="number" min="0" data-i="5" data-f="score" value="30"></div>
+            <div class="input-row"><span class="input-sub-label">Full score</span><input class="num-input" type="number" min="1" data-i="5" data-f="full" value="40"></div>
+            <div class="input-row"><span class="input-sub-label">Weight %</span><input class="num-input weight-input" type="number" min="0" max="100" data-i="5" data-f="weight" value="40"></div>
+          </div>
+        </div>
+
+        <div class="weight-warn" id="weightWarn">
+          ⚠ Weights add up to <span id="warnTotal"></span>%, not 100%. Raw score may be misleading.
+        </div>
+
+        <div class="breakdown">
+          <div class="breakdown-row" id="br0"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row" id="br1"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row" id="br2"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row" id="br3"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row" id="br4"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row" id="br5"><span class="br-label"></span><span class="br-val"></span></div>
+          <div class="breakdown-row br-total">
+            <span class="br-label">Raw score total</span>
+            <span class="br-val" id="rawTotal">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: TRANSMUTATION -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">4</div>
+        <div class="step-head-text">
+          <h2>Transmuted grade &amp; letter grade</h2>
+          <p>Raw scores are converted to the 75–100 institutional scale.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="formula-block">
+          <div style="font-size:12px; font-weight:500; color:var(--ink3); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Official formula</div>
+          <div class="formula-text">
+            Transmuted = <span class="hl">75</span> + ( (Raw − <span class="hl">50</span>) ÷ <span class="hl">50</span> × <span class="hl">25</span> )
+          </div>
+          <div class="formula-vars">
+            <span class="fvar"><b>75</b> = minimum pass grade</span>
+            <span class="fvar"><b>50</b> = minimum passing raw score</span>
+            <span class="fvar"><b>25</b> = grade range (75→100)</span>
+          </div>
+        </div>
+
+        <div class="trans-steps" id="transSteps"></div>
+
+        <div class="result-row">
+          <div class="result-card" id="rawCard">
+            <div class="result-card-label">Raw score</div>
+            <div class="result-card-val" id="rawDisp">—</div>
+            <div class="result-card-sub">Weighted total</div>
+          </div>
+          <div class="result-card" id="transCard">
+            <div class="result-card-label">Transmuted grade</div>
+            <div class="result-card-val" id="transDisp">—</div>
+            <div class="result-card-sub" id="transSub">—</div>
+          </div>
+        </div>
+
+        <div class="grade-badge-row">
+          <div class="grade-badge" id="gradeBadge">
+            <span class="grade-letter-big" id="gradeLetter">—</span>
+            <span id="gradeDesc">—</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- GRADE SCALE -->
+        <div style="font-size:13px; font-weight:500; color:var(--ink2); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;">Official grade scale</div>
+        <table class="scale-table">
+          <thead><tr><th>Grade</th><th>Description</th><th>Raw score</th><th>Transmuted</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="letter-box" style="background:var(--green-bg); color:var(--green);">A</span></td>
+              <td>Excellent</td><td class="mono">95–100%</td><td class="mono">95–100</td>
+            </tr>
+            <tr>
+              <td><span class="letter-box" style="background:var(--blue-bg); color:var(--blue);">B</span></td>
+              <td>Very good</td><td class="mono">90–94.99%</td><td class="mono">90–94.99</td>
+            </tr>
+            <tr>
+              <td><span class="letter-box" style="background:var(--purple-bg); color:var(--purple);">C</span></td>
+              <td>Satisfactory</td><td class="mono">80–89.99%</td><td class="mono">81–89.99</td>
+            </tr>
+            <tr>
+              <td><span class="letter-box" style="background:var(--amber-bg); color:var(--amber);">D</span></td>
+              <td>Passing</td><td class="mono">75–79.99%</td><td class="mono">75–79.99</td>
+            </tr>
+            <tr>
+              <td><span class="letter-box" style="background:var(--red-bg); color:var(--red);">E</span></td>
+              <td>Fail</td><td class="mono" style="color:var(--red);">Below 50%</td><td class="mono" style="color:var(--red);">Below 75</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="quick-ref" style="margin-top:16px;">
+          <div class="qr-item"><div class="qr-raw">50%</div><div class="qr-arrow">↓</div><div class="qr-trans">75</div></div>
+          <div class="qr-item"><div class="qr-raw">60%</div><div class="qr-arrow">↓</div><div class="qr-trans">80</div></div>
+          <div class="qr-item"><div class="qr-raw">70%</div><div class="qr-arrow">↓</div><div class="qr-trans">85</div></div>
+          <div class="qr-item"><div class="qr-raw">80%</div><div class="qr-arrow">↓</div><div class="qr-trans">90</div></div>
+          <div class="qr-item"><div class="qr-raw">90%</div><div class="qr-arrow">↓</div><div class="qr-trans">95</div></div>
+          <div class="qr-item"><div class="qr-raw">100%</div><div class="qr-arrow">↓</div><div class="qr-trans">100</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /steps -->
+
+  <footer>
+    ICS-5A LMS Technical Guidelines · SE4HC Project · National University of Management (NUM)<br>
+    Prepared by Dr. Mayra Christina M. Ambrocio · Consultant ICS-5A
+  </footer>
+</div>
+
+<script>
+var rows = [
+  { score:8,  full:10, weight:10 },
+  { score:7,  full:10, weight:10 },
+  { score:9,  full:10, weight:10 },
+  { score:6,  full:10, weight:10 },
+  { score:16, full:20, weight:20 },
+  { score:30, full:40, weight:40 },
+];
+var names = ['Quiz 1','Quiz 2','Quiz 3','Quiz 4','Midterm','Final exam'];
+
+document.querySelectorAll('.num-input').forEach(function(inp) {
+  inp.addEventListener('input', function() {
+    var i = +this.dataset.i, f = this.dataset.f;
+    var v = parseFloat(this.value);
+    if (isNaN(v) || v < 0) return;
+    if (f === 'score' && v > rows[i].full) { this.value = rows[i].full; v = rows[i].full; }
+    rows[i][f] = v;
+    calc();
+  });
+});
+
+function r2(n) { return Math.round(n * 100) / 100; }
+function pct(n) { return r2(n).toFixed(2) + '%'; }
+function fixed(n) { return r2(n).toFixed(2); }
+
+function gradeInfo(t) {
+  if (t >= 95) return { letter:'A', desc:'Excellent',    bg:['#f0fdf4','#86efac','#15803d'] };
+  if (t >= 90) return { letter:'B', desc:'Very good',    bg:['#eff4ff','#bdd0fb','#1d4ed8'] };
+  if (t >= 81) return { letter:'C', desc:'Satisfactory', bg:['#f5f0ff','#d4bffd','#6d28d9'] };
+  if (t >= 75) return { letter:'D', desc:'Passing',      bg:['#fffbeb','#fcd97a','#b45309'] };
+  return           { letter:'E', desc:'Fail',          bg:['#fef2f2','#fca5a5','#b91c1c'] };
+}
+
+function calc() {
+  var totalW = 0, raw = 0;
+  rows.forEach(function(r, i) {
+    var scorePct = r.full > 0 ? (r.score / r.full * 100) : 0;
+    var contrib  = scorePct * (r.weight / 100);
+    totalW += r.weight;
+    raw    += contrib;
+
+    // contribution chip
+    var chip = document.getElementById('c' + i);
+    chip.textContent = fixed(contrib) + ' pts';
+
+    // breakdown row
+    var br = document.getElementById('br' + i);
+    br.children[0].textContent = names[i] + ': ' + r.score + '/' + r.full + ' = ' + fixed(scorePct) + '% × ' + r.weight + '%';
+    br.children[1].textContent = '= ' + fixed(contrib);
+  });
+
+  // weight warning
+  var warn = document.getElementById('weightWarn');
+  document.getElementById('warnTotal').textContent = r2(totalW);
+  warn.style.display = Math.abs(totalW - 100) > 0.01 ? 'block' : 'none';
+
+  document.getElementById('rawTotal').textContent = fixed(raw) + '%';
+  document.getElementById('rawDisp').textContent  = fixed(raw) + '%';
+
+  var rawCard = document.getElementById('rawCard');
+  rawCard.className = 'result-card card-raw';
+
+  var transSteps = document.getElementById('transSteps');
+  var transCard  = document.getElementById('transCard');
+  var transDisp  = document.getElementById('transDisp');
+  var transSub   = document.getElementById('transSub');
+  var badge      = document.getElementById('gradeBadge');
+  var letterEl   = document.getElementById('gradeLetter');
+  var descEl     = document.getElementById('gradeDesc');
+
+  if (raw < 50) {
+    transSteps.innerHTML = 'Raw score ' + fixed(raw) + '% is below 50 — transmutation does not apply.';
+    transCard.className  = 'result-card card-fail';
+    transDisp.textContent = 'N/A';
+    transSub.textContent  = 'Below passing threshold';
+    var g = gradeInfo(0);
+    badge.style.cssText   = 'background:' + g.bg[0] + ';border:1px solid ' + g.bg[1] + ';color:' + g.bg[2] + ';display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:100px;font-size:15px;font-weight:500;';
+    letterEl.textContent  = 'E';
+    descEl.textContent    = 'Fail — not passed. Retaking subject to NUM policy.';
+    return;
+  }
+
+  var trans   = Math.min(100, 75 + ((raw - 50) / 50 * 25));
+  var step1   = r2(raw - 50);
+  var step2   = r2(step1 / 50);
+  var step3   = r2(step2 * 25);
+  var step4   = r2(trans);
+
+  transSteps.innerHTML =
+    'Step 1 &nbsp; Raw − 50 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ' + fixed(raw) + ' − 50 &nbsp;&nbsp;&nbsp;= <b>' + step1.toFixed(2) + '</b><br>' +
+    'Step 2 &nbsp; ' + step1.toFixed(2) + ' ÷ 50 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <b>' + step2.toFixed(4) + '</b><br>' +
+    'Step 3 &nbsp; ' + step2.toFixed(4) + ' × 25 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <b>' + step3.toFixed(2) + '</b><br>' +
+    'Step 4 &nbsp; 75 + ' + step3.toFixed(2) + ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <b>' + step4.toFixed(2) + '</b>';
+
+  var g = gradeInfo(trans);
+  transCard.className   = 'result-card card-trans';
+  transDisp.textContent = step4.toFixed(2);
+  transSub.textContent  = 'Institutional scale';
+  badge.style.cssText   = 'background:' + g.bg[0] + ';border:1px solid ' + g.bg[1] + ';color:' + g.bg[2] + ';display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:100px;font-size:15px;font-weight:500;';
+  letterEl.textContent  = g.letter;
+  descEl.textContent    = g.desc + ' — appears on your course certificate.';
+}
+
+calc();
+</script>
+</body>
+</html>
